@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GUI.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">yeee</a> &gt; <a href="index.source.html" class="el_package">com.yeet</a> &gt; <span class="el_source">GUI.java</span></div><h1>GUI.java</h1><pre class="source lang-java linenums">package com.yeet;
+import javax.swing.plaf.ColorUIResource;
+import java.awt.event.ActionEvent;
+import java.awt.event.*;  
+import javax.swing.*;
+import java.awt.*;    
+
+
+
+public class GUI{
+	private static Vokabeltest voc;
+
+	private static JFrame mainFrame;
+
+<span class="nc" id="L15">	JPanel hinzufuegenPanel = new JPanel();</span>
+<span class="nc" id="L16">	JPanel pruefungPanel = new JPanel();</span>
+<span class="nc" id="L17">	JPanel lernPanel = new JPanel();</span>
+<span class="nc" id="L18">	JPanel hauptMenuPanel = new JPanel();</span>
+
+<span class="nc" id="L20">	JPanel deck = new JPanel();</span>
+
+<span class="nc" id="L22">	private CardLayout layout = new CardLayout();</span>
+
+	private void initializeAddFrame(){
+		JLabel deutschesWortLabel;
+		JTextField deutschesWortInput;
+		JLabel englischLabel;
+		JTextField englischWortInput;
+		JButton enterButton;
+		JLabel warningText;
+		JButton switchPanelButton;
+
+<span class="nc" id="L33">		hinzufuegenPanel = new JPanel();</span>
+	
+<span class="nc" id="L35">		warningText = new JLabel();</span>
+<span class="nc" id="L36">		warningText.setBounds(200, 75, 2000, 25);</span>
+<span class="nc" id="L37">		hinzufuegenPanel.add(warningText);</span>
+<span class="nc" id="L38">		warningText.setVisible(false);</span>
+		
+<span class="nc" id="L40">		deutschesWortLabel = new JLabel(&quot;Deutsches Wort eingeben&quot;);</span>
+<span class="nc" id="L41">		deutschesWortLabel.setBounds(10, 20, 250, 25);</span>
+<span class="nc" id="L42">		hinzufuegenPanel.add(deutschesWortLabel);</span>
+	
+<span class="nc" id="L44">		deutschesWortInput = new JTextField(30);</span>
+<span class="nc" id="L45">		deutschesWortInput.setBounds(175, 20, 250, 25);</span>
+<span class="nc" id="L46">		hinzufuegenPanel.add(deutschesWortInput);</span>
+		
+<span class="nc" id="L48">		englischLabel = new JLabel(&quot;Übersetzung&quot;);</span>
+<span class="nc" id="L49">		englischLabel.setBounds(10, 50, 250, 25);</span>
+<span class="nc" id="L50">		hinzufuegenPanel.add(englischLabel);</span>
+		
+<span class="nc" id="L52">		englischWortInput = new JTextField(30);</span>
+<span class="nc" id="L53">		englischWortInput.setBounds(175, 50, 250, 25);</span>
+<span class="nc" id="L54">		hinzufuegenPanel.add(englischWortInput);</span>
+
+<span class="nc" id="L56">		enterButton = new JButton(&quot;Enter Word&quot;);</span>
+<span class="nc" id="L57">		enterButton.setBounds(10, 85, 120, 25);</span>
+<span class="nc" id="L58">		enterButton.addActionListener(new ActionListener(){  </span>
+			String deutschesWort;
+			String uebersetzung;  
+			public void actionPerformed(ActionEvent e){
+				
+<span class="nc" id="L63">				deutschesWort = deutschesWortInput.getText();</span>
+<span class="nc" id="L64">				uebersetzung = englischWortInput.getText();</span>
+<span class="nc" id="L65">				System.out.printf(&quot;Übersetzung: %s &quot;, uebersetzung);</span>
+<span class="nc" id="L66">				System.out.printf(&quot;Deutsch: %s &quot;, deutschesWort);</span>
+<span class="nc" id="L67">				deutschesWortInput.setText(&quot;&quot;);</span>
+<span class="nc" id="L68">				englischWortInput.setText(&quot;&quot;);</span>
+	
+<span class="nc bnc" id="L70" title="All 4 branches missed.">				if (uebersetzung.isBlank() || deutschesWort.isBlank()){</span>
+<span class="nc" id="L71">					System.out.println(&quot;Nicht Vollständig&quot;);</span>
+<span class="nc" id="L72">					warningText.setText(&quot;Wort muss vollständig mit Übersetzung eingegeben werden&quot;);</span>
+<span class="nc" id="L73">					warningText.setForeground(new ColorUIResource(255, 0, 0));</span>
+<span class="nc" id="L74">					warningText.setVisible(true);</span>
+<span class="nc" id="L75">				}</span>
+				else{
+<span class="nc" id="L77">					warningText.setVisible(false);</span>
+<span class="nc" id="L78">					voc.addVoc(deutschesWort, uebersetzung);</span>
+				}
+	
+<span class="nc" id="L81">				}  </span>
+				}
+			);
+<span class="nc" id="L84">			hinzufuegenPanel.add(enterButton);</span>
+			
+			
+<span class="nc" id="L87">			switchPanelButton = new JButton(&quot;Zurück&quot;);</span>
+<span class="nc" id="L88">			switchPanelButton.setBounds(60, 110, 120, 25);</span>
+<span class="nc" id="L89">			switchPanelButton.addActionListener(new ActionListener(){  </span>
+				public void actionPerformed(ActionEvent e){
+<span class="nc" id="L91">					layout.show(deck, &quot;main&quot;);</span>
+<span class="nc" id="L92">					}  </span>
+					}
+				);
+<span class="nc" id="L95">			hinzufuegenPanel.add(switchPanelButton);</span>
+		
+<span class="nc" id="L97">		hinzufuegenPanel.setLayout(null);</span>
+<span class="nc" id="L98">		hinzufuegenPanel.setBorder(BorderFactory.createEmptyBorder(30, 30, 10, 10));</span>
+		
+
+<span class="nc" id="L101">	}</span>
+
+	private void initializePruefungFrame(){
+		JLabel englischLabel;
+		JTextField englischWortInput;
+		JButton enterButton;
+		JLabel vocabelText;
+		JButton switchPanelButton;
+		JLabel richtigHaken;
+
+<span class="nc" id="L111">		pruefungPanel = new JPanel();</span>
+	
+<span class="nc" id="L113">		vocabelText = new JLabel(&quot;&quot;);</span>
+		//vocabelText.setFont(new Font(&quot;comicsans&quot;, Font.PLAIN, 20));
+<span class="nc" id="L115">		vocabelText.setBounds(250, 10, 250, 50);</span>
+<span class="nc" id="L116">		vocabelText.setVisible(false);</span>
+<span class="nc" id="L117">		VokabelWort naechsteVokabel = voc.getNextVoc();</span>
+<span class="nc" id="L118">		System.out.println(naechsteVokabel.word);</span>
+<span class="nc" id="L119">		vocabelText.setText(naechsteVokabel.word);</span>
+<span class="nc" id="L120">		pruefungPanel.add(vocabelText);</span>
+	
+<span class="nc" id="L122">		vocabelText.setVisible(true);</span>
+
+<span class="nc" id="L124">		englischLabel = new JLabel(&quot;Enter Translation&quot;);</span>
+<span class="nc" id="L125">		englischLabel.setBounds(10, 50, 250, 25);</span>
+<span class="nc" id="L126">		pruefungPanel.add(englischLabel);</span>
+		
+<span class="nc" id="L128">		englischWortInput = new JTextField(30);</span>
+<span class="nc" id="L129">		englischWortInput.setBounds(175, 50, 250, 25);</span>
+<span class="nc" id="L130">		pruefungPanel.add(englischWortInput);</span>
+
+<span class="nc" id="L132">		richtigHaken = new JLabel();</span>
+<span class="nc" id="L133">		ImageIcon haken = new ImageIcon(&quot;src/images.png&quot;);</span>
+<span class="nc" id="L134">		richtigHaken.setIcon(haken);</span>
+<span class="nc" id="L135">		richtigHaken.setBounds(600, 20, 1000, 1000);</span>
+		//pruefungPanel.setLayout(new GridBagLayout());
+<span class="nc" id="L137">		richtigHaken.setVisible(false);</span>
+<span class="nc" id="L138">		pruefungPanel.add(richtigHaken);</span>
+
+<span class="nc" id="L140">		enterButton = new JButton(&quot;Enter Word&quot;);</span>
+<span class="nc" id="L141">		enterButton.setBounds(250, 100, 120, 30);</span>
+<span class="nc" id="L142">		enterButton.addActionListener(new ActionListener(){  </span>
+			String enteredWord;
+			public void actionPerformed(ActionEvent e){
+<span class="nc" id="L145">				enteredWord = englischWortInput.getText();</span>
+<span class="nc" id="L146">				englischWortInput.setText(&quot;&quot;);</span>
+<span class="nc" id="L147">				System.out.println(enteredWord);</span>
+				
+<span class="nc" id="L149">				Boolean guessedRight = voc.guess(enteredWord);</span>
+<span class="nc bnc" id="L150" title="All 2 branches missed.">				if(guessedRight){</span>
+<span class="nc" id="L151">					System.out.println(&quot;richtig&quot;);</span>
+<span class="nc" id="L152">					VokabelWort nvoc = voc.getNextVoc();</span>
+<span class="nc" id="L153">					String nvocstr = nvoc.word;</span>
+<span class="nc" id="L154">					System.out.println(nvocstr);</span>
+<span class="nc" id="L155">					richtigHaken.setVisible(true);</span>
+					try {
+<span class="nc" id="L157">						Thread.sleep(1000);</span>
+<span class="nc" id="L158">					} catch (Exception ex) {</span>
+					}
+<span class="nc" id="L160">					richtigHaken.setVisible(false);</span>
+<span class="nc" id="L161">					vocabelText.setText(nvocstr);</span>
+<span class="nc" id="L162">				}</span>
+				else{
+<span class="nc" id="L164">					System.out.println(&quot;falsch&quot;);</span>
+				}
+<span class="nc" id="L166">			}</span>
+
+		});
+<span class="nc" id="L169">			pruefungPanel.add(enterButton);</span>
+			
+			
+<span class="nc" id="L172">			switchPanelButton = new JButton(&quot;Beende Prüfung&quot;);</span>
+<span class="nc" id="L173">			switchPanelButton.setBounds(250, 140, 120, 25);</span>
+<span class="nc" id="L174">			switchPanelButton.addActionListener(new ActionListener(){  </span>
+				public void actionPerformed(ActionEvent e){
+					//changeFrame();	
+<span class="nc" id="L177">					layout.show(deck, &quot;main&quot;);</span>
+<span class="nc" id="L178">					}  </span>
+					}
+				);
+<span class="nc" id="L181">				pruefungPanel.add(switchPanelButton);</span>
+		
+<span class="nc" id="L183">				pruefungPanel.setLayout(null);</span>
+<span class="nc" id="L184">				pruefungPanel.setBorder(BorderFactory.createEmptyBorder(30, 30, 10, 10));</span>
+
+<span class="nc" id="L186">	}</span>
+
+	private void initializeLernFrame(){
+
+		JButton zurueckButton;
+<span class="nc" id="L191">		zurueckButton = new JButton(&quot;Zurück&quot;);</span>
+<span class="nc" id="L192">		zurueckButton.setBounds(250, 100, 120, 30);</span>
+<span class="nc" id="L193">		zurueckButton.addActionListener(new ActionListener(){  </span>
+			public void actionPerformed(ActionEvent e){
+<span class="nc" id="L195">				layout.show(deck, &quot;main&quot;);</span>
+<span class="nc" id="L196">			}});</span>
+
+<span class="nc" id="L198">		lernPanel.add(zurueckButton);</span>
+
+<span class="nc" id="L200">		int anzahlVokabeln = voc.Vokabelliste.getLength();</span>
+
+<span class="nc" id="L202">        String vokabeln[][] = new String[anzahlVokabeln][2];</span>
+
+<span class="nc bnc" id="L204" title="All 2 branches missed.">		for (int i = 0; i &lt; anzahlVokabeln; i++){</span>
+<span class="nc" id="L205">			VokabelWort vok = (VokabelWort) voc.Vokabelliste.getItem(i);</span>
+<span class="nc" id="L206">			vokabeln[i][0] = vok.word;</span>
+<span class="nc" id="L207">			vokabeln[i][1] = vok.translation;</span>
+		}
+
+<span class="nc" id="L210">		String[] ueberschrift = {&quot;Deutsch&quot;, &quot;Deutsch&quot;};</span>
+<span class="nc" id="L211">		JTable tabelle = new JTable(vokabeln, ueberschrift);</span>
+<span class="nc" id="L212">		tabelle.setBounds(30, 40, 200, 300);</span>
+
+<span class="nc" id="L214">		JScrollPane sp = new JScrollPane(tabelle);</span>
+
+<span class="nc" id="L216">		lernPanel.add(sp);</span>
+		
+
+
+<span class="nc" id="L220">	}</span>
+
+	private void initializeHomescreenFrame(){
+		JButton startePruefungButton;
+		JButton vokHinzufuegenButton;
+		JButton listeVokButton;
+
+<span class="nc" id="L227">		startePruefungButton = new JButton(&quot;Starte Prüfung&quot;);</span>
+<span class="nc" id="L228">		startePruefungButton.setBounds(10, 85, 120, 25);</span>
+<span class="nc" id="L229">		startePruefungButton.addActionListener(new ActionListener(){  </span>
+			public void actionPerformed(ActionEvent e){
+<span class="nc" id="L231">				layout.show(deck, &quot;pruefung&quot;);</span>
+<span class="nc" id="L232">				}  </span>
+				}
+			);
+<span class="nc" id="L235">		hauptMenuPanel.add(startePruefungButton);</span>
+
+<span class="nc" id="L237">		vokHinzufuegenButton = new JButton(&quot;Füge Vokabeln hinzu&quot;);</span>
+<span class="nc" id="L238">		vokHinzufuegenButton.setBounds(10, 120, 120, 25);</span>
+<span class="nc" id="L239">		vokHinzufuegenButton.addActionListener(new ActionListener(){  </span>
+			public void actionPerformed(ActionEvent e){
+<span class="nc" id="L241">				layout.show(deck, &quot;hinzufuegen&quot;);</span>
+<span class="nc" id="L242">				}  </span>
+				}
+			);
+<span class="nc" id="L245">		hauptMenuPanel.add(vokHinzufuegenButton);</span>
+		
+<span class="nc" id="L247">		listeVokButton = new JButton(&quot;Liste der Vokabeln&quot;);</span>
+<span class="nc" id="L248">		listeVokButton.setBounds(10, 150, 120, 25);</span>
+<span class="nc" id="L249">		listeVokButton.addActionListener(new ActionListener(){  </span>
+			public void actionPerformed(ActionEvent e){
+<span class="nc" id="L251">				layout.show(deck, &quot;lernen&quot;);</span>
+<span class="nc" id="L252">				}  </span>
+				}
+			);
+<span class="nc" id="L255">		hauptMenuPanel.add(listeVokButton);</span>
+
+
+<span class="nc" id="L258">	}</span>
+
+<span class="nc" id="L260">	public GUI(){</span>
+		try{
+<span class="nc" id="L262">			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());</span>
+<span class="nc" id="L263">		}</span>
+<span class="nc" id="L264">		catch (Exception e){</span>
+<span class="nc" id="L265">			e.printStackTrace();</span>
+		}
+<span class="nc" id="L267">		voc = new Vokabeltest();</span>
+<span class="nc" id="L268">		testingShit();</span>
+<span class="nc" id="L269">		initializeAddFrame();</span>
+<span class="nc" id="L270">		initializePruefungFrame();</span>
+<span class="nc" id="L271">		initializeLernFrame();</span>
+<span class="nc" id="L272">		initializeHomescreenFrame();</span>
+
+		
+<span class="nc" id="L275">		deck.setLayout(layout);</span>
+<span class="nc" id="L276">		deck.setBounds(0, 0, 1000, 1000);</span>
+<span class="nc" id="L277">		deck.add(hauptMenuPanel, &quot;main&quot;);</span>
+<span class="nc" id="L278">		deck.add(pruefungPanel, &quot;pruefung&quot;);</span>
+<span class="nc" id="L279">		deck.add(hinzufuegenPanel, &quot;hinzufuegen&quot;);</span>
+<span class="nc" id="L280">		deck.add(lernPanel, &quot;lernen&quot;);</span>
+
+
+<span class="nc" id="L283">		mainFrame = new JFrame();</span>
+<span class="nc" id="L284">		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);</span>
+<span class="nc" id="L285">		mainFrame.add(deck);</span>
+<span class="nc" id="L286">		mainFrame.setPreferredSize(new Dimension(1000, 1000));</span>
+<span class="nc" id="L287">		mainFrame.pack();</span>
+<span class="nc" id="L288">		mainFrame.setLocationRelativeTo(null);</span>
+<span class="nc" id="L289">		mainFrame.setVisible(true);</span>
+
+	
+<span class="nc" id="L292">	}</span>
+
+
+	
+	private void testingShit(){
+<span class="nc" id="L297">		voc.addVoc(&quot;bean&quot;,&quot;BEEEEEANZ&quot;);</span>
+<span class="nc" id="L298">        voc.addVoc(&quot;bruh&quot;,&quot;reeee&quot;);</span>
+<span class="nc" id="L299">        voc.addVoc(&quot;bbbbb&quot;,&quot;Yeeeeeeet&quot;);	</span>
+<span class="nc" id="L300">	}</span>
+
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>
