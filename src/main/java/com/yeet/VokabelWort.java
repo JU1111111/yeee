@@ -1,7 +1,5 @@
 package com.yeet;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class VokabelWort {
 	public String word;
 	public String translation;
