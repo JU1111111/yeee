@@ -4,10 +4,12 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.core.exc.StreamWriteException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,7 +35,7 @@ public class Jsonloader {
 		objectMapper.writeValue(Paths.get(filename).toFile(), vokabeln);
 	}
 
-	public static VokabelWort[] fromJsonFile(String filePath) throws StreamReadException, DatabindException, IOException {
-		return objectMapper.readValue(new File(filePath), VokabelWort[].class);
+	public static List<VokabelWort>  fromJsonFile(String filePath) throws StreamReadException, DatabindException, IOException {
+		return objectMapper.readValue(new File(filePath), new TypeReference<List<VokabelWort>>(){});
 	}
 }

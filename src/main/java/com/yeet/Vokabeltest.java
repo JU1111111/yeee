@@ -1,9 +1,6 @@
 package com.yeet;
-//import java.util.ArrayList;
-
 import java.io.IOException;
 import java.util.*;
-
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
 
@@ -15,9 +12,11 @@ public class Vokabeltest{
 	String vokJsonPath = "Vokabeln.json";
 	Jsonloader jsonload = new Jsonloader();
 
+
 	public Vokabeltest(){
 		
 	}
+
 
 	public void saveToJson(){
 		ArrayList<VokabelWort> vokArrLst = loadAsArrLst();
@@ -26,22 +25,21 @@ public class Vokabeltest{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 	}
 
+
 	public void loadFromJson() throws StreamReadException, DatabindException, IOException{
-		VokabelWort[] vokabelnArr = Jsonloader.fromJsonFile(vokJsonPath);
+		List<VokabelWort> vokabelnArr = Jsonloader.fromJsonFile(vokJsonPath);
 
 		while(!Vokabelliste.isEmpty()){
 			Vokabelliste.delete(0);
 		}
-
 		for (VokabelWort vokabelWort : vokabelnArr) {
 			System.out.println(vokabelWort.word + "   " + vokabelWort.translation);
 			Vokabelliste.append(vokabelWort);
 		}
-
 	}
+
 
 	public void addVoc(String word, String translation){
 		VokabelWort newVoc = new VokabelWort(word, translation);
@@ -68,15 +66,12 @@ public class Vokabeltest{
 			Vokabelliste.delete(0);
 			vokArrLst.add(vok);
 		}
-
 		Collections.shuffle(vokArrLst);
 		System.out.println(vokArrLst.size());
 		for (VokabelWort vokabel : vokArrLst) {
 			//System.out.println(vokabel.word);
 			Vokabelliste.append(vokabel);
 		}
-
-
 	}
 
 	public ArrayList<VokabelWort> loadAsArrLst(){
@@ -86,8 +81,6 @@ public class Vokabeltest{
 			VokabelWort vok = (VokabelWort) Vokabelliste.getItem(i);
 			vokArrLst.add(vok);
 		}
-		
-
 		return vokArrLst;
 	}
 

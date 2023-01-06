@@ -22,6 +22,7 @@ public class GUI{
 
 	private CardLayout layout = new CardLayout();
 
+
 	private void initializeAddFrame(){
 		JLabel deutschesWortLabel;
 		JTextField deutschesWortInput;
@@ -35,7 +36,7 @@ public class GUI{
 
 		hinzufuegenPanel = new JPanel();
 	
-		warningText = new JLabel();
+		warningText = new JLabel(); //Text falls Übersetzung fehlt
 		warningText.setBounds(200, 75, 2000, 25);
 		hinzufuegenPanel.add(warningText);
 		warningText.setVisible(false);
@@ -70,7 +71,7 @@ public class GUI{
 				deutschesWortInput.setText("");
 				englischWortInput.setText("");
 	
-				if (uebersetzung.isBlank() || deutschesWort.isBlank()){
+				if (uebersetzung.isBlank() || deutschesWort.isBlank()){ // Zeige Fehlermeldung falls nur ein Wort eingegeben wurde
 					System.out.println("Nicht Vollständig");
 					warningText.setText("Wort muss vollständig mit Übersetzung eingegeben werden");
 					warningText.setForeground(new ColorUIResource(255, 0, 0));
@@ -124,22 +125,20 @@ public class GUI{
 
 		hinzufuegenPanel.setLayout(null);
 		hinzufuegenPanel.setBorder(BorderFactory.createEmptyBorder(30, 30, 10, 10));
-		
-
 	}
 
+
 	private void initializePruefungFrame(){
-		JLabel englischLabel;
+		JLabel englischLabel; 
 		JTextField englischWortInput;
 		JButton enterButton;
-		JLabel vocabelText;
-		JButton switchPanelButton;
+		JLabel vocabelText;// Vokabel zum abfragen
+		JButton switchPanelButton; // Button zurück zum Hauptmenu
 		JLabel richtigHaken;
 
 		pruefungPanel = new JPanel();
 	
 		vocabelText = new JLabel("");
-		//vocabelText.setFont(new Font("comicsans", Font.PLAIN, 20));
 		vocabelText.setBounds(250, 10, 250, 50);
 		vocabelText.setVisible(false);
 		VokabelWort naechsteVokabel = voc.getNextVoc();
@@ -161,7 +160,6 @@ public class GUI{
 		ImageIcon haken = new ImageIcon("src/images.png");
 		richtigHaken.setIcon(haken);
 		richtigHaken.setBounds(600, 20, 1000, 1000);
-		//pruefungPanel.setLayout(new GridBagLayout());
 		richtigHaken.setVisible(false);
 		pruefungPanel.add(richtigHaken);
 
@@ -175,7 +173,7 @@ public class GUI{
 				System.out.println(enteredWord);
 				
 				Boolean guessedRight = voc.guess(enteredWord);
-				if(guessedRight){
+				if(guessedRight){ //Zeige Nächste Vokabel falls die Eingabe richtig war
 					System.out.println("richtig");
 					VokabelWort nvoc = voc.getNextVoc();
 					String nvocstr = nvoc.word;
@@ -194,27 +192,26 @@ public class GUI{
 			}
 
 		});
-			pruefungPanel.add(enterButton);
-			
-			
-			switchPanelButton = new JButton("Beende Prüfung");
-			switchPanelButton.setBounds(250, 140, 120, 25);
-			switchPanelButton.addActionListener(new ActionListener(){  
-				public void actionPerformed(ActionEvent e){
-					//changeFrame();	
-					layout.show(deck, "main");
-					}  
-					}
-				);
-				pruefungPanel.add(switchPanelButton);
+		pruefungPanel.add(enterButton);
 		
-				pruefungPanel.setLayout(null);
-				pruefungPanel.setBorder(BorderFactory.createEmptyBorder(30, 30, 10, 10));
-
+		
+		switchPanelButton = new JButton("Beende Prüfung");
+		switchPanelButton.setBounds(250, 140, 120, 25);
+		switchPanelButton.addActionListener(new ActionListener(){  
+			public void actionPerformed(ActionEvent e){
+				//changeFrame();	
+				layout.show(deck, "main");
+				}  
+				}
+			);
+			pruefungPanel.add(switchPanelButton);
+	
+			pruefungPanel.setLayout(null);
+			pruefungPanel.setBorder(BorderFactory.createEmptyBorder(30, 30, 10, 10));
 	}
 
-	private void initializeLernFrame(){
 
+	private void initializeLernFrame(){
 		JButton zurueckButton;
 		zurueckButton = new JButton("Zurück");
 		zurueckButton.setBounds(250, 100, 120, 30);
@@ -242,10 +239,8 @@ public class GUI{
 		JScrollPane sp = new JScrollPane(tabelle);
 
 		lernPanel.add(sp);
-		
-
-
 	}
+
 
 	private void initializeHomescreenFrame(){
 		JButton startePruefungButton;
@@ -276,14 +271,14 @@ public class GUI{
 		listeVokButton.setBounds(10, 150, 120, 25);
 		listeVokButton.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){
+				initializeLernFrame();
 				layout.show(deck, "lernen");
 				}  
 				}
 			);
 		hauptMenuPanel.add(listeVokButton);
-
-
 	}
+
 
 	public GUI(){
 		try{
@@ -294,14 +289,13 @@ public class GUI{
 		}
 		voc = new Vokabeltest();
 		testingStuff();
-		voc.saveToJson();
 		initializeAddFrame();
 		initializePruefungFrame();
-		initializeLernFrame();
+		//initializeLernFrame();
 		initializeHomescreenFrame();
 
 		
-		deck.setLayout(layout);
+		deck.setLayout(layout); //Deck für die verschiedenen Ansichten
 		deck.setBounds(0, 0, 1000, 1000);
 		deck.add(hauptMenuPanel, "main");
 		deck.add(pruefungPanel, "pruefung");
@@ -309,24 +303,19 @@ public class GUI{
 		deck.add(lernPanel, "lernen");
 
 
-		mainFrame = new JFrame();
+		mainFrame = new JFrame(); //Fenster der App
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.add(deck);
 		mainFrame.setPreferredSize(new Dimension(1000, 1000));
 		mainFrame.pack();
 		mainFrame.setLocationRelativeTo(null);
 		mainFrame.setVisible(true);
-
-	
 	}
-
-
 	
+
 	private void testingStuff(){
 		voc.addVoc("bean","BEEEEEANZ");
         voc.addVoc("bruh","reeee");
         voc.addVoc("bbbbb","Yeeeeeeet");	
 	}
-
-	
 }
