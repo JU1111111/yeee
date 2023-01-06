@@ -1,12 +1,11 @@
 package com.yeet;
 //import java.util.ArrayList;
 
-
-
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
+
+import com.fasterxml.jackson.core.exc.StreamReadException;
+import com.fasterxml.jackson.databind.DatabindException;
 
 
 public class Vokabeltest{
@@ -28,6 +27,20 @@ public class Vokabeltest{
 			e.printStackTrace();
 		}
 		
+	}
+
+	public void loadFromJson() throws StreamReadException, DatabindException, IOException{
+		VokabelWort[] vokabelnArr = Jsonloader.fromJsonFile(vokJsonPath);
+
+		while(!Vokabelliste.isEmpty()){
+			Vokabelliste.delete(0);
+		}
+
+		for (VokabelWort vokabelWort : vokabelnArr) {
+			System.out.println(vokabelWort.word + "   " + vokabelWort.translation);
+			Vokabelliste.append(vokabelWort);
+		}
+
 	}
 
 	public void addVoc(String word, String translation){

@@ -6,11 +6,24 @@ import java.io.IOException;
 
 import org.junit.jupiter.api.Test;
 
+import com.fasterxml.jackson.core.exc.StreamWriteException;
+import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.JsonNode;
 
 public class JsonloaderTest {
 
 	private String simpleTestcaseJson = "{	\"title\": \"Yeet\"	}";
+	private DynArray testVokDynArr = new DynArray();
+
+
+	@Test
+	void makeDynArr(){
+		testVokDynArr.append(new VokabelWort("Hallo", "Hello"));
+		testVokDynArr.append(new VokabelWort("Bohne", "Bean"));
+		testVokDynArr.append(new VokabelWort("yes", "yee"));
+	}
+
+
 	@Test
 	void testParse() throws IOException {
 		JsonNode node = Jsonloader.parse(simpleTestcaseJson);
@@ -25,5 +38,6 @@ public class JsonloaderTest {
 		assertEquals(obj.getTitle(), "Yeet");
 	}
 
+	
 
 }

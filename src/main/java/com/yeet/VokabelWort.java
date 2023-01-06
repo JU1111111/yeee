@@ -17,9 +17,13 @@ public class VokabelWort {
 		if (guessedWrong != 0){
 			percentageright = 100 * (guessedRight / guessedWrong);
 		}
+		else if(guessedRight == 0){
+			percentageright = 0;
+		}
 		else{
 			percentageright = 100;
 		}
+
 		return percentageright;
 	}
 }

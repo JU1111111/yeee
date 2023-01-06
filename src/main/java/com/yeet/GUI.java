@@ -1,6 +1,7 @@
 package com.yeet;
 import javax.swing.plaf.ColorUIResource;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 import java.awt.event.*;  
 import javax.swing.*;
 import java.awt.*;    
@@ -29,6 +30,8 @@ public class GUI{
 		JButton enterButton;
 		JLabel warningText;
 		JButton switchPanelButton;
+		JButton saveToJsonButton;
+		JButton loadFromJsonButton;
 
 		hinzufuegenPanel = new JPanel();
 	
@@ -54,7 +57,7 @@ public class GUI{
 		hinzufuegenPanel.add(englischWortInput);
 
 		enterButton = new JButton("Enter Word");
-		enterButton.setBounds(10, 85, 120, 25);
+		enterButton.setBounds(225, 85, 120, 25);
 		enterButton.addActionListener(new ActionListener(){  
 			String deutschesWort;
 			String uebersetzung;  
@@ -83,9 +86,32 @@ public class GUI{
 			);
 			hinzufuegenPanel.add(enterButton);
 			
+			saveToJsonButton = new JButton("In JSON Speichern");
+			saveToJsonButton.setBounds(10, 160, 200, 25);
+			saveToJsonButton.addActionListener(new ActionListener(){  
+				public void actionPerformed(ActionEvent e){
+					voc.saveToJson();
+					}  
+					}
+				);
+			hinzufuegenPanel.add(saveToJsonButton);
 			
+			loadFromJsonButton = new JButton("Aus gespeichert Laden");
+			loadFromJsonButton.setBounds(10, 195, 200, 25);
+			loadFromJsonButton.addActionListener(new ActionListener(){  
+				public void actionPerformed(ActionEvent e){
+					try {
+						voc.loadFromJson();
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+					}  
+					}
+				);
+			hinzufuegenPanel.add(loadFromJsonButton);
+
 			switchPanelButton = new JButton("Zurück");
-			switchPanelButton.setBounds(60, 110, 120, 25);
+			switchPanelButton.setBounds(450, 35, 120, 25);
 			switchPanelButton.addActionListener(new ActionListener(){  
 				public void actionPerformed(ActionEvent e){
 					layout.show(deck, "main");
@@ -94,6 +120,8 @@ public class GUI{
 				);
 			hinzufuegenPanel.add(switchPanelButton);
 		
+
+
 		hinzufuegenPanel.setLayout(null);
 		hinzufuegenPanel.setBorder(BorderFactory.createEmptyBorder(30, 30, 10, 10));
 		
