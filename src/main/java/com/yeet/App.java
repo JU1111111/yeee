@@ -2,7 +2,7 @@ package com.yeet;
 public class App {
     public static void main(String[] args) throws Exception {
         new GUI();
-        testing();
+        //testing();
     }
     public static void testing() {
         Vokabeltest voc = new Vokabeltest();

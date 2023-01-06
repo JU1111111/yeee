@@ -265,7 +265,8 @@ public class GUI{
 			e.printStackTrace();
 		}
 		voc = new Vokabeltest();
-		testingShit();
+		testingStuff();
+		voc.saveToJson();
 		initializeAddFrame();
 		initializePruefungFrame();
 		initializeLernFrame();
@@ -293,7 +294,7 @@ public class GUI{
 
 
 	
-	private void testingShit(){
+	private void testingStuff(){
 		voc.addVoc("bean","BEEEEEANZ");
         voc.addVoc("bruh","reeee");
         voc.addVoc("bbbbb","Yeeeeeeet");	

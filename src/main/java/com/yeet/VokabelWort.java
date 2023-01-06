@@ -13,7 +13,13 @@ public class VokabelWort {
 	}
 
 	public Float getPercentageRight(){
-		float percentageright = 100 * (guessedRight / guessedWrong);
+		float percentageright;
+		if (guessedWrong != 0){
+			percentageright = 100 * (guessedRight / guessedWrong);
+		}
+		else{
+			percentageright = 100;
+		}
 		return percentageright;
 	}
 }
