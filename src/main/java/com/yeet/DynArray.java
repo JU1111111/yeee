@@ -1,18 +1,10 @@
 package com.yeet;
-/**
- * Write a description of class DynArray here.
- * 
- * @author (your name) 
- * @version (a version number or a date)
- */
+
 public class DynArray {
     private Element first;
     private Element last;
     private int length;
-    
-    /**
-     * Constructor for objects of class DynArray
-     */
+
     public DynArray() {
         this.first = null;
         this.last = null;
@@ -107,7 +99,6 @@ public class DynArray {
         this.length--;
     }
 
-    
     public int getLength() {
         return this.length;
     }

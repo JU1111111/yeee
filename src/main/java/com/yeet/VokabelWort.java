@@ -17,13 +17,6 @@ public class VokabelWort {
 		this.guessedRight = 0;
 	}
 
-	public VokabelWort(String word, String translation, int guessedRight, int guessedWrong, int percentageright){
-		this.word = word;
-		this.translation = translation;
-		this.guessedRight = guessedRight;
-		this.guessedRight = guessedWrong;
-	}
-
 	public Float calcPercentageRight(){
 		float percentageright;
 		if (guessedWrong != 0){

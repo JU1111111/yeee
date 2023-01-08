@@ -7,22 +7,17 @@ import javax.swing.*;
 import java.awt.*;    
 
 
-
 public class GUI{
 	private static Vokabeltest voc;
-
 	private static JFrame mainFrame;
-
 	JPanel hinzufuegenPanel = new JPanel();
 	JPanel pruefungPanel = new JPanel();
-	JPanel lernPanel = new JPanel();
+	JPanel lernPanel = new JPanel();;
 	JPanel hauptMenuPanel = new JPanel();
-
 	JPanel deck = new JPanel();
-
 	private CardLayout layout = new CardLayout();
 
-
+	
 	private void initializeAddFrame(){
 		JLabel deutschesWortLabel;
 		JTextField deutschesWortInput;
@@ -33,7 +28,6 @@ public class GUI{
 		JButton switchPanelButton;
 		JButton saveToJsonButton;
 		JButton loadFromJsonButton;
-
 		hinzufuegenPanel = new JPanel();
 	
 		warningText = new JLabel(); //Text falls Übersetzung fehlt
@@ -63,7 +57,6 @@ public class GUI{
 			String deutschesWort;
 			String uebersetzung;  
 			public void actionPerformed(ActionEvent e){
-				
 				deutschesWort = deutschesWortInput.getText();
 				uebersetzung = englischWortInput.getText();
 				System.out.printf("Übersetzung: %s ", uebersetzung);
@@ -81,47 +74,44 @@ public class GUI{
 					warningText.setVisible(false);
 					voc.addVoc(deutschesWort, uebersetzung);
 				}
-	
 				}  
 				}
 			);
-			hinzufuegenPanel.add(enterButton);
-			
-			saveToJsonButton = new JButton("In JSON Speichern");
-			saveToJsonButton.setBounds(10, 160, 200, 25);
-			saveToJsonButton.addActionListener(new ActionListener(){  
-				public void actionPerformed(ActionEvent e){
-					voc.saveToJson();
-					}  
-					}
-				);
-			hinzufuegenPanel.add(saveToJsonButton);
-			
-			loadFromJsonButton = new JButton("Aus gespeichert Laden");
-			loadFromJsonButton.setBounds(10, 195, 200, 25);
-			loadFromJsonButton.addActionListener(new ActionListener(){  
-				public void actionPerformed(ActionEvent e){
-					try {
-						voc.loadFromJson();
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-					}  
-					}
-				);
-			hinzufuegenPanel.add(loadFromJsonButton);
-
-			switchPanelButton = new JButton("Zurück");
-			switchPanelButton.setBounds(450, 35, 120, 25);
-			switchPanelButton.addActionListener(new ActionListener(){  
-				public void actionPerformed(ActionEvent e){
-					layout.show(deck, "main");
-					}  
-					}
-				);
-			hinzufuegenPanel.add(switchPanelButton);
+		hinzufuegenPanel.add(enterButton);
 		
+		saveToJsonButton = new JButton("In JSON Speichern");
+		saveToJsonButton.setBounds(10, 160, 200, 25);
+		saveToJsonButton.addActionListener(new ActionListener(){  
+			public void actionPerformed(ActionEvent e){
+				voc.saveToJson();
+				}  
+				}
+			);
+		hinzufuegenPanel.add(saveToJsonButton);
+		
+		loadFromJsonButton = new JButton("Aus gespeichert Laden");
+		loadFromJsonButton.setBounds(10, 195, 200, 25);
+		loadFromJsonButton.addActionListener(new ActionListener(){  
+			public void actionPerformed(ActionEvent e){
+				try {
+					voc.loadFromJson();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				}  
+				}
+			);
+		hinzufuegenPanel.add(loadFromJsonButton);
 
+		switchPanelButton = new JButton("Zurück");
+		switchPanelButton.setBounds(450, 35, 120, 25);
+		switchPanelButton.addActionListener(new ActionListener(){  
+			public void actionPerformed(ActionEvent e){
+				layout.show(deck, "main");
+				}  
+				}
+			);
+		hinzufuegenPanel.add(switchPanelButton);
 
 		hinzufuegenPanel.setLayout(null);
 		hinzufuegenPanel.setBorder(BorderFactory.createEmptyBorder(30, 30, 10, 10));
@@ -194,24 +184,22 @@ public class GUI{
 		});
 		pruefungPanel.add(enterButton);
 		
-		
 		switchPanelButton = new JButton("Beende Prüfung");
 		switchPanelButton.setBounds(250, 140, 120, 25);
 		switchPanelButton.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){
-				//changeFrame();	
 				layout.show(deck, "main");
 				}  
 				}
 			);
-			pruefungPanel.add(switchPanelButton);
-	
-			pruefungPanel.setLayout(null);
-			pruefungPanel.setBorder(BorderFactory.createEmptyBorder(30, 30, 10, 10));
+		pruefungPanel.add(switchPanelButton);
+		pruefungPanel.setLayout(null);
+		pruefungPanel.setBorder(BorderFactory.createEmptyBorder(30, 30, 10, 10));
 	}
 
 
 	private void initializeLernFrame(){
+		lernPanel = new JPanel();
 		JButton zurueckButton;
 		zurueckButton = new JButton("Zurück");
 		zurueckButton.setBounds(250, 100, 120, 30);
@@ -221,26 +209,20 @@ public class GUI{
 			}});
 
 		lernPanel.add(zurueckButton);
-
 		int anzahlVokabeln = voc.Vokabelliste.getLength();
-
-        String vokabeln[][] = new String[anzahlVokabeln][2];
-
+		String vokabeln[][] = new String[anzahlVokabeln][2];
 		for (int i = 0; i < anzahlVokabeln; i++){
 			VokabelWort vok = (VokabelWort) voc.Vokabelliste.getItem(i);
 			vokabeln[i][0] = vok.word;
 			vokabeln[i][1] = vok.translation;
 		}
-
-		String[] ueberschrift = {"Deutsch", "Deutsch"};
-		JTable tabelle = new JTable(vokabeln, ueberschrift);
+		String[] heading = {"Deutsch", "Deutsch"};
+		JTable tabelle = new JTable(vokabeln, heading);
 		tabelle.setBounds(30, 40, 200, 300);
-
 		JScrollPane sp = new JScrollPane(tabelle);
-
 		lernPanel.add(sp);
 	}
-
+	
 
 	private void initializeHomescreenFrame(){
 		JButton startePruefungButton;
@@ -272,14 +254,15 @@ public class GUI{
 		listeVokButton.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){
 				initializeLernFrame();
+				deck.add(lernPanel, "lernen");
 				layout.show(deck, "lernen");
-				}  
-				}
-			);
+			}  
+		}
+		);
 		hauptMenuPanel.add(listeVokButton);
 	}
-
-
+	
+	
 	public GUI(){
 		try{
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -291,16 +274,15 @@ public class GUI{
 		testingStuff();
 		initializeAddFrame();
 		initializePruefungFrame();
-		//initializeLernFrame();
 		initializeHomescreenFrame();
-
+		
 		
 		deck.setLayout(layout); //Deck für die verschiedenen Ansichten
 		deck.setBounds(0, 0, 1000, 1000);
 		deck.add(hauptMenuPanel, "main");
 		deck.add(pruefungPanel, "pruefung");
 		deck.add(hinzufuegenPanel, "hinzufuegen");
-		deck.add(lernPanel, "lernen");
+		
 
 
 		mainFrame = new JFrame(); //Fenster der App

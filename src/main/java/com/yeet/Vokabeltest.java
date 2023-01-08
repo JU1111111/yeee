@@ -74,6 +74,7 @@ public class Vokabeltest{
 		}
 	}
 
+	
 	public ArrayList<VokabelWort> loadAsArrLst(){
 		ArrayList<VokabelWort> vokArrLst = new ArrayList<VokabelWort>();
 		int laengeListe = Vokabelliste.getLength();

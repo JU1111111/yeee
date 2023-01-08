@@ -9,20 +9,15 @@ public class App {
         voc.addVoc("bean","BEEEEEANZ");
         voc.addVoc("bruh","reeee");
         voc.addVoc("bbbbb","Yeeeeeeet");
-
-
         for (int i = 0; i < voc.Vokabelliste.getLength()-1; i++){
             VokabelWort V = (VokabelWort) voc.Vokabelliste.getItem(i);
             System.out.println(V.word);
         }
-
         voc.shuffleVocList();
         System.out.println(voc.Vokabelliste.getLength());
-
         for (int i = 0; i < voc.Vokabelliste.getLength(); i++){
             VokabelWort V = (VokabelWort) voc.Vokabelliste.getItem(i);
             System.out.println(V.word);
-        }
-           
+        }  
     }
 }
