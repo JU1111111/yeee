@@ -119,16 +119,19 @@ public class GUI{
 
 
 	private void initializePruefungFrame(){
-		JLabel englischLabel; 
-		JTextField englischWortInput;
-		JButton enterButton;
+		JLabel englischLabel; // Übersetzung Eingeben Text
+		JTextField englischWortInput; //EingabeFeld Übersetzung
+		JButton enterButton; 
 		JLabel vocabelText;// Vokabel zum abfragen
 		JButton switchPanelButton; // Button zurück zum Hauptmenu
 		JLabel richtigHaken;
+		JComboBox<String> sortComboBox;
+		JLabel sortierungText;
 
 		pruefungPanel = new JPanel();
 	
 		vocabelText = new JLabel("");
+		vocabelText.setFont(new Font("Serif", Font.PLAIN, 30));
 		vocabelText.setBounds(250, 10, 250, 50);
 		vocabelText.setVisible(false);
 		VokabelWort naechsteVokabel = voc.getNextVoc();
@@ -138,12 +141,12 @@ public class GUI{
 	
 		vocabelText.setVisible(true);
 
-		englischLabel = new JLabel("Enter Translation");
-		englischLabel.setBounds(10, 50, 250, 25);
+		englischLabel = new JLabel("Übersetzung");
+		englischLabel.setBounds(30, 60, 250, 25);
 		pruefungPanel.add(englischLabel);
 		
 		englischWortInput = new JTextField(30);
-		englischWortInput.setBounds(175, 50, 250, 25);
+		englischWortInput.setBounds(175, 60, 250, 25);
 		pruefungPanel.add(englischWortInput);
 
 		richtigHaken = new JLabel();
@@ -152,6 +155,25 @@ public class GUI{
 		richtigHaken.setBounds(600, 20, 1000, 1000);
 		richtigHaken.setVisible(false);
 		pruefungPanel.add(richtigHaken);
+
+		String[] sorts = {"random", "percentage"};
+		sortComboBox = new JComboBox<String>(sorts);
+		sortComboBox.setSelectedIndex(0);
+		sortComboBox.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				@SuppressWarnings("unchecked")
+				JComboBox<String> cb = (JComboBox<String>) e.getSource();
+				String sort = (String)cb.getSelectedItem();
+				voc.sortBy(sort);
+			}
+		});
+		sortComboBox.setBounds(700, 10, 100, 20);
+		pruefungPanel.add(sortComboBox);
+
+		sortierungText = new JLabel();
+		sortierungText.setText("Sorierung");
+		sortierungText.setBounds(600, 10, 150, 20);
+		pruefungPanel.add(sortierungText);
 
 		enterButton = new JButton("Enter Word");
 		enterButton.setBounds(250, 100, 120, 30);
@@ -210,13 +232,16 @@ public class GUI{
 
 		lernPanel.add(zurueckButton);
 		int anzahlVokabeln = voc.Vokabelliste.getLength();
-		String vokabeln[][] = new String[anzahlVokabeln][2];
+		String vokabeln[][] = new String[anzahlVokabeln][3];
+
+
 		for (int i = 0; i < anzahlVokabeln; i++){
 			VokabelWort vok = (VokabelWort) voc.Vokabelliste.getItem(i);
 			vokabeln[i][0] = vok.word;
 			vokabeln[i][1] = vok.translation;
+			vokabeln[i][2] = Float.toString(vok.calcPercentageRight());
 		}
-		String[] heading = {"Deutsch", "Deutsch"};
+		String[] heading = {"Deutsch", "Englisch", "% Richtig"};
 		JTable tabelle = new JTable(vokabeln, heading);
 		tabelle.setBounds(30, 40, 200, 300);
 		JScrollPane sp = new JScrollPane(tabelle);
@@ -275,16 +300,13 @@ public class GUI{
 		initializeAddFrame();
 		initializePruefungFrame();
 		initializeHomescreenFrame();
-		
-		
+			
 		deck.setLayout(layout); //Deck für die verschiedenen Ansichten
 		deck.setBounds(0, 0, 1000, 1000);
 		deck.add(hauptMenuPanel, "main");
 		deck.add(pruefungPanel, "pruefung");
 		deck.add(hinzufuegenPanel, "hinzufuegen");
 		
-
-
 		mainFrame = new JFrame(); //Fenster der App
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.add(deck);

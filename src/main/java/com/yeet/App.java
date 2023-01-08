@@ -13,7 +13,7 @@ public class App {
             VokabelWort V = (VokabelWort) voc.Vokabelliste.getItem(i);
             System.out.println(V.word);
         }
-        voc.shuffleVocList();
+        //voc.shuffleVocList();
         System.out.println(voc.Vokabelliste.getLength());
         for (int i = 0; i < voc.Vokabelliste.getLength(); i++){
             VokabelWort V = (VokabelWort) voc.Vokabelliste.getItem(i);

@@ -58,23 +58,45 @@ public class Vokabeltest{
 	}
 
 
-	public void shuffleVocList(){
+	public void sortBy(String sortBy){
+		if (sortBy.equals("random")){
+			sortByRandom();
+		}
+		else if(sortBy.equals("percentage")){
+			sortByPercentage();
+		}
+	}
+	
+	
+	private void sortByRandom(){
+		ArrayList<VokabelWort> vokArrLst = loadAsArrLstAndEmptyDynArr();
+		Collections.shuffle(vokArrLst);
+		for (VokabelWort vokabel : vokArrLst) {
+			Vokabelliste.append(vokabel);
+		}
+	}
+	
+
+	private void sortByPercentage(){
+		ArrayList<VokabelWort> vokArrLst = loadAsArrLstAndEmptyDynArr();
+
+		Collections.sort(vokArrLst, 
+    		Comparator.comparingDouble(VokabelWort::calcPercentageRight));
+		for (VokabelWort vokabel : vokArrLst) {
+			Vokabelliste.append(vokabel);
+		}
+	}
+
+	public ArrayList<VokabelWort> loadAsArrLstAndEmptyDynArr(){
 		ArrayList<VokabelWort> vokArrLst = new ArrayList<VokabelWort>();
-		
 		while(!Vokabelliste.isEmpty()){
 			VokabelWort vok = (VokabelWort) Vokabelliste.getItem(0);
 			Vokabelliste.delete(0);
 			vokArrLst.add(vok);
 		}
-		Collections.shuffle(vokArrLst);
-		System.out.println(vokArrLst.size());
-		for (VokabelWort vokabel : vokArrLst) {
-			//System.out.println(vokabel.word);
-			Vokabelliste.append(vokabel);
-		}
+		return vokArrLst;
 	}
 
-	
 	public ArrayList<VokabelWort> loadAsArrLst(){
 		ArrayList<VokabelWort> vokArrLst = new ArrayList<VokabelWort>();
 		int laengeListe = Vokabelliste.getLength();
