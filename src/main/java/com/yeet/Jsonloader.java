@@ -13,13 +13,14 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 public class Jsonloader {
 	
 	private static ObjectMapper objectMapper = getDefaulObjectMapper();
 
 	private static ObjectMapper getDefaulObjectMapper(){
-		ObjectMapper defaultObjectMapper = new ObjectMapper();
+		ObjectMapper defaultObjectMapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
 		return(defaultObjectMapper);
 	}
 

@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
-Test set: com.yeet.AppTest
+Test set: com.yeet.JsonloaderTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.1 s - in com.yeet.AppTest
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.09 s - in com.yeet.JsonloaderTest

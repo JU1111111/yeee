@@ -58,7 +58,6 @@ public class DynArray {
             this.length++;
         }
         
-        
     }
     
     public void setItem(int index, Object obj) {
