@@ -51,13 +51,13 @@ public class GUI{
 		englischWortInput.setBounds(175, 50, 250, 25);
 		hinzufuegenPanel.add(englischWortInput);
 
-		enterButton = new JButton("Enter Word");
+		enterButton = new JButton("Enter Word"); 
 		enterButton.setBounds(225, 85, 120, 25);
 		enterButton.addActionListener(new ActionListener(){  
 			String deutschesWort;
 			String uebersetzung;  
 			public void actionPerformed(ActionEvent e){
-				deutschesWort = deutschesWortInput.getText();
+				deutschesWort = deutschesWortInput.getText();  //Vokabel Hinzufügen
 				uebersetzung = englischWortInput.getText();
 				System.out.printf("Übersetzung: %s ", uebersetzung);
 				System.out.printf("Deutsch: %s ", deutschesWort);
@@ -79,11 +79,11 @@ public class GUI{
 			);
 		hinzufuegenPanel.add(enterButton);
 		
-		saveToJsonButton = new JButton("In JSON Speichern");
+		saveToJsonButton = new JButton("In JSON Speichern"); 
 		saveToJsonButton.setBounds(10, 160, 200, 25);
 		saveToJsonButton.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){
-				voc.saveToJson();
+				voc.saveToJson(); // alle ganze Vokabelliste wird gespeichert
 				}  
 				}
 			);
@@ -94,7 +94,7 @@ public class GUI{
 		loadFromJsonButton.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){
 				try {
-					voc.loadFromJson();
+					voc.loadFromJson(); //Vokabelliste abrufen
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
@@ -127,16 +127,30 @@ public class GUI{
 		JLabel richtigHaken;
 		JComboBox<String> sortComboBox;
 		JLabel sortierungText;
+		JLabel keineVok = new JLabel();
 
 		pruefungPanel = new JPanel();
+
+		keineVok.setBounds(250, 10, 250, 50);
+		keineVok.setText("Keine Vokabeln");
+		keineVok.setForeground(new ColorUIResource(255, 0, 0));
+		keineVok.setFont(new Font("Serif", Font.PLAIN, 30));
+		pruefungPanel.add(keineVok);
 	
-		vocabelText = new JLabel("");
+		vocabelText = new JLabel();
 		vocabelText.setFont(new Font("Serif", Font.PLAIN, 30));
 		vocabelText.setBounds(250, 10, 250, 50);
 		vocabelText.setVisible(false);
 		VokabelWort naechsteVokabel = voc.getNextVoc();
-		System.out.println(naechsteVokabel.word);
-		vocabelText.setText(naechsteVokabel.word);
+		if(naechsteVokabel != null){
+			keineVok.setVisible(false);
+			System.out.println(naechsteVokabel.word);
+			vocabelText.setText(naechsteVokabel.word);
+		}
+		else{
+			keineVok.setVisible(true);
+			vocabelText.setText(null);
+		}
 		pruefungPanel.add(vocabelText);
 	
 		vocabelText.setVisible(true);
@@ -164,14 +178,14 @@ public class GUI{
 				@SuppressWarnings("unchecked")
 				JComboBox<String> cb = (JComboBox<String>) e.getSource();
 				String sort = (String)cb.getSelectedItem();
-				voc.sortBy(sort);
+				voc.sortBy(sort); //Sortierung der Vokabeln entweder zufällig oder nach Fehlerhäufigkeit
 			}
 		});
 		sortComboBox.setBounds(700, 10, 100, 20);
 		pruefungPanel.add(sortComboBox);
 
 		sortierungText = new JLabel();
-		sortierungText.setText("Sorierung");
+		sortierungText.setText("Sortierung");
 		sortierungText.setBounds(600, 10, 150, 20);
 		pruefungPanel.add(sortierungText);
 
@@ -210,7 +224,7 @@ public class GUI{
 		switchPanelButton.setBounds(250, 140, 120, 25);
 		switchPanelButton.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){
-				layout.show(deck, "main");
+				layout.show(deck, "main"); //Prüfung wird beendet
 				}  
 				}
 			);
@@ -245,7 +259,7 @@ public class GUI{
 		JTable tabelle = new JTable(vokabeln, heading);
 		tabelle.setBounds(30, 40, 200, 300);
 		JScrollPane sp = new JScrollPane(tabelle);
-		lernPanel.add(sp);
+		lernPanel.add(sp); // Vokabeln mit Richtigskeit-Prozentsatz
 	}
 	
 
@@ -258,6 +272,7 @@ public class GUI{
 		startePruefungButton.setBounds(10, 85, 120, 25);
 		startePruefungButton.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){
+				initializePruefungFrame();
 				layout.show(deck, "pruefung");
 				}  
 				}
@@ -296,7 +311,6 @@ public class GUI{
 			e.printStackTrace();
 		}
 		voc = new Vokabeltest();
-		testingStuff();
 		initializeAddFrame();
 		initializePruefungFrame();
 		initializeHomescreenFrame();
@@ -305,7 +319,7 @@ public class GUI{
 		deck.setBounds(0, 0, 1000, 1000);
 		deck.add(hauptMenuPanel, "main");
 		deck.add(pruefungPanel, "pruefung");
-		deck.add(hinzufuegenPanel, "hinzufuegen");
+		deck.add(hinzufuegenPanel, "hinzufuegen"); //Auswahlmöglichkeiten für den Costumer
 		
 		mainFrame = new JFrame(); //Fenster der App
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -316,10 +330,4 @@ public class GUI{
 		mainFrame.setVisible(true);
 	}
 	
-
-	private void testingStuff(){
-		voc.addVoc("bean","BEEEEEANZ");
-        voc.addVoc("bruh","reeee");
-        voc.addVoc("bbbbb","Yeeeeeeet");	
-	}
 }

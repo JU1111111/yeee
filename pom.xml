@@ -20,6 +20,14 @@
     <jacoco.unit-tests.limit.class-complexity>20</jacoco.unit-tests.limit.class-complexity>
     <jacoco.unit-tests.limit.method-complexity>5</jacoco.unit-tests.limit.method-complexity>
   </properties>
+
+  <distributionManagement>
+       <repository>
+         <id>internal.repo</id>
+         <name>Internal repo</name>
+         <url>file:\\\C:\Users\Julian\Desktop\InformatikVokabeln\yeee</url>
+       </repository>
+   </distributionManagement>
   <dependencies>
 
     <dependency>

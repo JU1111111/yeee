@@ -48,13 +48,16 @@ public class Vokabeltest{
 
 
 	public VokabelWort getNextVoc(){
-		VokabelWort voc = (VokabelWort) Vokabelliste.getItem(counter);
-		this.voc = voc;
-		counter++;
-		if (counter >= Vokabelliste.getLength()){
-			counter = 0;
+		if (!Vokabelliste.isEmpty()){
+			VokabelWort voc = (VokabelWort) Vokabelliste.getItem(counter);
+			this.voc = voc;
+			counter++;
+			if (counter >= Vokabelliste.getLength()){
+				counter = 0;
+			}
+			return voc;
 		}
-		return voc;
+		return null;
 	}
 
 
