@@ -1,5 +1,9 @@
 package com.yeet;
 import javax.swing.plaf.ColorUIResource;
+
+import com.formdev.flatlaf.FlatDarculaLaf;
+import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import com.yeet.views.*;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
@@ -109,7 +113,6 @@ public class GUI{
 					System.out.println("falsch");
 				}
 			}
-
 		});
 
 		pruefungView.switchPanelButton.addActionListener(new ActionListener(){  
@@ -194,13 +197,15 @@ public class GUI{
 			}  
 		}
 		);
+		hauptMenuPanel.setBackground(Color.DARK_GRAY);
 		hauptMenuPanel.add(listeVokButton);
 	}
 	
 	
 	public GUI(){
+		//UIManager.getSystemLookAndFeelClassName()
 		try{
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			UIManager.setLookAndFeel( new FlatDarkLaf());
 		}
 		catch (Exception e){
 			e.printStackTrace();
