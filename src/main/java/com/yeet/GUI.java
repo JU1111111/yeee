@@ -1,5 +1,6 @@
 package com.yeet;
 import javax.swing.plaf.ColorUIResource;
+import com.yeet.views.PruefungView;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.awt.event.*;  
@@ -15,6 +16,7 @@ public class GUI{
 	JPanel lernPanel = new JPanel();;
 	JPanel hauptMenuPanel = new JPanel();
 	JPanel deck = new JPanel();
+	PruefungView pruefungView;
 	private CardLayout layout = new CardLayout();
 
 	
@@ -117,63 +119,9 @@ public class GUI{
 		hinzufuegenPanel.setBorder(BorderFactory.createEmptyBorder(30, 30, 10, 10));
 	}
 
-
 	private void initializePruefungFrame(){
-		JLabel englischLabel; // Übersetzung Eingeben Text
-		JTextField englischWortInput; //EingabeFeld Übersetzung
-		JButton enterButton; 
-		JLabel vocabelText;// Vokabel zum abfragen
-		JButton switchPanelButton; // Button zurück zum Hauptmenu
-		JLabel richtigHaken;
-		JComboBox<String> sortComboBox;
-		JLabel sortierungText;
-		JLabel keineVok = new JLabel();
-
-		pruefungPanel = new JPanel();
-
-		keineVok.setBounds(250, 10, 250, 50);
-		keineVok.setText("Keine Vokabeln");
-		keineVok.setForeground(new ColorUIResource(255, 0, 0));
-		keineVok.setFont(new Font("Serif", Font.PLAIN, 30));
-		pruefungPanel.add(keineVok);
-	
-		vocabelText = new JLabel();
-		vocabelText.setFont(new Font("Serif", Font.PLAIN, 30));
-		vocabelText.setBounds(250, 10, 250, 50);
-		vocabelText.setVisible(false);
-		VokabelWort naechsteVokabel = voc.getNextVoc();
-		if(naechsteVokabel != null){
-			keineVok.setVisible(false);
-			System.out.println(naechsteVokabel.word);
-			vocabelText.setText(naechsteVokabel.word);
-		}
-		else{
-			keineVok.setVisible(true);
-			vocabelText.setText(null);
-		}
-		pruefungPanel.add(vocabelText);
-	
-		vocabelText.setVisible(true);
-
-		englischLabel = new JLabel("Übersetzung");
-		englischLabel.setBounds(30, 60, 250, 25);
-		pruefungPanel.add(englischLabel);
-		
-		englischWortInput = new JTextField(30);
-		englischWortInput.setBounds(175, 60, 250, 25);
-		pruefungPanel.add(englischWortInput);
-
-		richtigHaken = new JLabel();
-		ImageIcon haken = new ImageIcon("src/images.png");
-		richtigHaken.setIcon(haken);
-		richtigHaken.setBounds(600, 20, 1000, 1000);
-		richtigHaken.setVisible(false);
-		pruefungPanel.add(richtigHaken);
-
-		String[] sorts = {"random", "percentage"};
-		sortComboBox = new JComboBox<String>(sorts);
-		sortComboBox.setSelectedIndex(0);
-		sortComboBox.addActionListener(new ActionListener(){
+		pruefungView = new PruefungView();
+		pruefungView.sortComboBox.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				@SuppressWarnings("unchecked")
 				JComboBox<String> cb = (JComboBox<String>) e.getSource();
@@ -181,36 +129,27 @@ public class GUI{
 				voc.sortBy(sort); //Sortierung der Vokabeln entweder zufällig oder nach Fehlerhäufigkeit
 			}
 		});
-		sortComboBox.setBounds(700, 10, 100, 20);
-		pruefungPanel.add(sortComboBox);
 
-		sortierungText = new JLabel();
-		sortierungText.setText("Sortierung");
-		sortierungText.setBounds(600, 10, 150, 20);
-		pruefungPanel.add(sortierungText);
-
-		enterButton = new JButton("Enter Word");
-		enterButton.setBounds(250, 100, 120, 30);
-		enterButton.addActionListener(new ActionListener(){  
+		pruefungView.enterButton.addActionListener(new ActionListener(){  
 			String enteredWord;
 			public void actionPerformed(ActionEvent e){
-				enteredWord = englischWortInput.getText();
-				englischWortInput.setText("");
+				enteredWord = pruefungView.englischWortInput.getText();
+				pruefungView.englischWortInput.setText("");
 				System.out.println(enteredWord);
 				
 				Boolean guessedRight = voc.guess(enteredWord);
 				if(guessedRight){ //Zeige Nächste Vokabel falls die Eingabe richtig war
 					System.out.println("richtig");
-					VokabelWort nvoc = voc.getNextVoc();
-					String nvocstr = nvoc.word;
-					System.out.println(nvocstr);
-					richtigHaken.setVisible(true);
+					VokabelWort newVoc = voc.getNextVoc();
+					String newVocWord = newVoc.word;
+					System.out.println(newVocWord);
+					//richtigHaken.setVisible(true);
 					try {
 						Thread.sleep(1000);
 					} catch (Exception ex) {
 					}
-					richtigHaken.setVisible(false);
-					vocabelText.setText(nvocstr);
+					//richtigHaken.setVisible(false);
+					pruefungView.vokabelText.setText(newVocWord);
 				}
 				else{
 					System.out.println("falsch");
@@ -218,19 +157,14 @@ public class GUI{
 			}
 
 		});
-		pruefungPanel.add(enterButton);
-		
-		switchPanelButton = new JButton("Beende Prüfung");
-		switchPanelButton.setBounds(250, 140, 120, 25);
-		switchPanelButton.addActionListener(new ActionListener(){  
+
+		pruefungView.switchPanelButton.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){
 				layout.show(deck, "main"); //Prüfung wird beendet
 				}  
 				}
 			);
-		pruefungPanel.add(switchPanelButton);
-		pruefungPanel.setLayout(null);
-		pruefungPanel.setBorder(BorderFactory.createEmptyBorder(30, 30, 10, 10));
+
 	}
 
 
@@ -272,8 +206,15 @@ public class GUI{
 		startePruefungButton.setBounds(10, 85, 120, 25);
 		startePruefungButton.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){
-				initializePruefungFrame();
-				layout.show(deck, "pruefung");
+				if (voc.Vokabelliste.isEmpty()){
+					pruefungView.noVocab(true, null);
+					layout.show(deck, "pruefung");
+				}
+				else{
+					voc.getNextVoc();
+					pruefungView.noVocab(false, voc.voc.word);
+					layout.show(deck, "pruefung");
+				}	
 				}  
 				}
 			);
@@ -318,7 +259,7 @@ public class GUI{
 		deck.setLayout(layout); //Deck für die verschiedenen Ansichten
 		deck.setBounds(0, 0, 1000, 1000);
 		deck.add(hauptMenuPanel, "main");
-		deck.add(pruefungPanel, "pruefung");
+		deck.add(pruefungView, "pruefung");
 		deck.add(hinzufuegenPanel, "hinzufuegen"); //Auswahlmöglichkeiten für den Costumer
 		
 		mainFrame = new JFrame(); //Fenster der App
