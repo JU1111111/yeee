@@ -1,6 +1,6 @@
 package com.yeet;
 import javax.swing.plaf.ColorUIResource;
-import com.yeet.views.PruefungView;
+import com.yeet.views.*;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.awt.event.*;  
@@ -12,112 +12,66 @@ public class GUI{
 	private static Vokabeltest voc;
 	private static JFrame mainFrame;
 	JPanel hinzufuegenPanel = new JPanel();
-	JPanel pruefungPanel = new JPanel();
 	JPanel lernPanel = new JPanel();;
 	JPanel hauptMenuPanel = new JPanel();
 	JPanel deck = new JPanel();
 	PruefungView pruefungView;
+	AddVocView addVocView;
 	private CardLayout layout = new CardLayout();
 
 	
 	private void initializeAddFrame(){
-		JLabel deutschesWortLabel;
-		JTextField deutschesWortInput;
-		JLabel englischLabel;
-		JTextField englischWortInput;
-		JButton enterButton;
-		JLabel warningText;
-		JButton switchPanelButton;
-		JButton saveToJsonButton;
-		JButton loadFromJsonButton;
-		hinzufuegenPanel = new JPanel();
-	
-		warningText = new JLabel(); //Text falls Übersetzung fehlt
-		warningText.setBounds(200, 75, 2000, 25);
-		hinzufuegenPanel.add(warningText);
-		warningText.setVisible(false);
-		
-		deutschesWortLabel = new JLabel("Deutsches Wort eingeben");
-		deutschesWortLabel.setBounds(10, 20, 250, 25);
-		hinzufuegenPanel.add(deutschesWortLabel);
-	
-		deutschesWortInput = new JTextField(30);
-		deutschesWortInput.setBounds(175, 20, 250, 25);
-		hinzufuegenPanel.add(deutschesWortInput);
-		
-		englischLabel = new JLabel("Übersetzung");
-		englischLabel.setBounds(10, 50, 250, 25);
-		hinzufuegenPanel.add(englischLabel);
-		
-		englischWortInput = new JTextField(30);
-		englischWortInput.setBounds(175, 50, 250, 25);
-		hinzufuegenPanel.add(englischWortInput);
+		addVocView = new AddVocView();
 
-		enterButton = new JButton("Enter Word"); 
-		enterButton.setBounds(225, 85, 120, 25);
-		enterButton.addActionListener(new ActionListener(){  
+		addVocView.enterButton.addActionListener(new ActionListener(){  
 			String deutschesWort;
 			String uebersetzung;  
 			public void actionPerformed(ActionEvent e){
-				deutschesWort = deutschesWortInput.getText();  //Vokabel Hinzufügen
-				uebersetzung = englischWortInput.getText();
+				deutschesWort = addVocView.deutschesWortInput.getText();  //Vokabel Hinzufügen
+				uebersetzung = addVocView.englischWortInput.getText();
 				System.out.printf("Übersetzung: %s ", uebersetzung);
 				System.out.printf("Deutsch: %s ", deutschesWort);
-				deutschesWortInput.setText("");
-				englischWortInput.setText("");
+				addVocView.deutschesWortInput.setText("");
+				addVocView.englischWortInput.setText("");
 	
 				if (uebersetzung.isBlank() || deutschesWort.isBlank()){ // Zeige Fehlermeldung falls nur ein Wort eingegeben wurde
 					System.out.println("Nicht Vollständig");
-					warningText.setText("Wort muss vollständig mit Übersetzung eingegeben werden");
-					warningText.setForeground(new ColorUIResource(255, 0, 0));
-					warningText.setVisible(true);
+					addVocView.warningText.setText("Wort muss vollständig mit Übersetzung eingegeben werden");
+					addVocView.warningText.setForeground(new ColorUIResource(255, 0, 0));
+					addVocView.warningText.setVisible(true);
 				}
 				else{
-					warningText.setVisible(false);
+					addVocView.warningText.setVisible(false);
 					voc.addVoc(deutschesWort, uebersetzung);
 				}
 				}  
 				}
 			);
-		hinzufuegenPanel.add(enterButton);
-		
-		saveToJsonButton = new JButton("In JSON Speichern"); 
-		saveToJsonButton.setBounds(10, 160, 200, 25);
-		saveToJsonButton.addActionListener(new ActionListener(){  
+
+		addVocView.saveToJsonButton.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){
 				voc.saveToJson(); // alle ganze Vokabelliste wird gespeichert
-				}  
-				}
+				}  }
 			);
-		hinzufuegenPanel.add(saveToJsonButton);
-		
-		loadFromJsonButton = new JButton("Aus gespeichert Laden");
-		loadFromJsonButton.setBounds(10, 195, 200, 25);
-		loadFromJsonButton.addActionListener(new ActionListener(){  
-			public void actionPerformed(ActionEvent e){
-				try {
-					voc.loadFromJson(); //Vokabelliste abrufen
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-				}  
-				}
-			);
-		hinzufuegenPanel.add(loadFromJsonButton);
 
-		switchPanelButton = new JButton("Zurück");
-		switchPanelButton.setBounds(450, 35, 120, 25);
-		switchPanelButton.addActionListener(new ActionListener(){  
+		addVocView.loadFromJsonButton.addActionListener(new ActionListener(){  
+			public void actionPerformed(ActionEvent e){
+					try {
+						voc.loadFromJson(); //Vokabelliste abrufen
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+				} }
+			);
+
+		addVocView.switchPanelButton.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){
 				layout.show(deck, "main");
 				}  
 				}
 			);
-		hinzufuegenPanel.add(switchPanelButton);
-
-		hinzufuegenPanel.setLayout(null);
-		hinzufuegenPanel.setBorder(BorderFactory.createEmptyBorder(30, 30, 10, 10));
 	}
+
 
 	private void initializePruefungFrame(){
 		pruefungView = new PruefungView();
@@ -260,7 +214,7 @@ public class GUI{
 		deck.setBounds(0, 0, 1000, 1000);
 		deck.add(hauptMenuPanel, "main");
 		deck.add(pruefungView, "pruefung");
-		deck.add(hinzufuegenPanel, "hinzufuegen"); //Auswahlmöglichkeiten für den Costumer
+		deck.add(addVocView, "hinzufuegen"); //Auswahlmöglichkeiten für den Costumer
 		
 		mainFrame = new JFrame(); //Fenster der App
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
