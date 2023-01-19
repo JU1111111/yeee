@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GUI.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">yeee</a> &gt; <a href="index.source.html" class="el_package">com.yeet</a> &gt; <span class="el_source">GUI.java</span></div><h1>GUI.java</h1><pre class="source lang-java linenums">package com.yeet;
+import javax.swing.plaf.ColorUIResource;
+
+import com.formdev.flatlaf.FlatDarculaLaf;
+import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+import com.yeet.views.*;
+import java.awt.event.ActionEvent;
+import java.io.IOException;
+import java.awt.event.*;  
+import javax.swing.*;
+import java.awt.*;    
+
+
+public class GUI{
+	private static Vokabeltest voc;
+	private static JFrame mainFrame;
+<span class="nc" id="L19">	JPanel hinzufuegenPanel = new JPanel();</span>
+<span class="nc" id="L20">	JPanel lernPanel = new JPanel();;</span>
+<span class="nc" id="L21">	JPanel hauptMenuPanel = new JPanel();</span>
+<span class="nc" id="L22">	JPanel deck = new JPanel();</span>
+	PruefungView pruefungView;
+	AddVocView addVocView;
+<span class="nc" id="L25">	private CardLayout layout = new CardLayout();</span>
+	Boolean darkMode;
+
+	
+	private void initializeAddFrame(){
+<span class="nc" id="L30">		addVocView = new AddVocView();</span>
+
+<span class="nc" id="L32">		addVocView.enterButton.addActionListener(new ActionListener(){  </span>
+			String deutschesWort;
+			String uebersetzung;  
+			public void actionPerformed(ActionEvent e){
+<span class="nc" id="L36">				deutschesWort = addVocView.deutschesWortInput.getText();  //Vokabel Hinzufügen</span>
+<span class="nc" id="L37">				uebersetzung = addVocView.englischWortInput.getText();</span>
+<span class="nc" id="L38">				System.out.printf(&quot;Übersetzung: %s &quot;, uebersetzung);</span>
+<span class="nc" id="L39">				System.out.printf(&quot;Deutsch: %s &quot;, deutschesWort);</span>
+<span class="nc" id="L40">				addVocView.deutschesWortInput.setText(&quot;&quot;);</span>
+<span class="nc" id="L41">				addVocView.englischWortInput.setText(&quot;&quot;);</span>
+	
+<span class="nc bnc" id="L43" title="All 4 branches missed.">				if (uebersetzung.isBlank() || deutschesWort.isBlank()){ // Zeige Fehlermeldung falls nur ein Wort eingegeben wurde</span>
+<span class="nc" id="L44">					System.out.println(&quot;Nicht Vollständig&quot;);</span>
+<span class="nc" id="L45">					addVocView.warningText.setText(&quot;Wort muss vollständig mit Übersetzung eingegeben werden&quot;);</span>
+<span class="nc" id="L46">					addVocView.warningText.setForeground(new ColorUIResource(255, 0, 0));</span>
+<span class="nc" id="L47">					addVocView.warningText.setVisible(true);</span>
+				}
+				else{
+<span class="nc" id="L50">					addVocView.warningText.setVisible(false);</span>
+<span class="nc" id="L51">					voc.addVoc(deutschesWort, uebersetzung);</span>
+				}
+<span class="nc" id="L53">				}  </span>
+				}
+			);
+
+<span class="nc" id="L57">		addVocView.saveToJsonButton.addActionListener(new ActionListener(){  </span>
+			public void actionPerformed(ActionEvent e){
+<span class="nc" id="L59">				voc.saveToJson(); // alle ganze Vokabelliste wird gespeichert</span>
+<span class="nc" id="L60">				}  }</span>
+			);
+
+<span class="nc" id="L63">		addVocView.loadFromJsonButton.addActionListener(new ActionListener(){  </span>
+			public void actionPerformed(ActionEvent e){
+					try {
+<span class="nc" id="L66">						voc.loadFromJson(); //Vokabelliste abrufen</span>
+<span class="nc" id="L67">					} catch (IOException e1) {</span>
+<span class="nc" id="L68">						e1.printStackTrace();</span>
+<span class="nc" id="L69">					}</span>
+<span class="nc" id="L70">				} }</span>
+			);
+
+<span class="nc" id="L73">		addVocView.switchPanelButton.addActionListener(new ActionListener(){  </span>
+			public void actionPerformed(ActionEvent e){
+<span class="nc" id="L75">				layout.show(deck, &quot;main&quot;);</span>
+<span class="nc" id="L76">				}  </span>
+				}
+			);
+<span class="nc" id="L79">	}</span>
+
+
+	private void initializePruefungFrame(){
+<span class="nc" id="L83">		pruefungView = new PruefungView();</span>
+<span class="nc" id="L84">		pruefungView.sortComboBox.addActionListener(new ActionListener(){</span>
+			public void actionPerformed(ActionEvent e){
+				@SuppressWarnings(&quot;unchecked&quot;)
+<span class="nc" id="L87">				JComboBox&lt;String&gt; cb = (JComboBox&lt;String&gt;) e.getSource();</span>
+<span class="nc" id="L88">				String sort = (String)cb.getSelectedItem();</span>
+<span class="nc" id="L89">				voc.sortBy(sort); //Sortierung der Vokabeln entweder zufällig oder nach Fehlerhäufigkeit</span>
+<span class="nc" id="L90">			}</span>
+		});
+
+<span class="nc" id="L93">		pruefungView.enterButton.addActionListener(new ActionListener(){  </span>
+			String enteredWord;
+			public void actionPerformed(ActionEvent e){
+<span class="nc" id="L96">				enteredWord = pruefungView.englischWortInput.getText();</span>
+<span class="nc" id="L97">				pruefungView.englischWortInput.setText(&quot;&quot;);</span>
+<span class="nc" id="L98">				System.out.println(enteredWord);</span>
+				
+<span class="nc" id="L100">				Boolean guessedRight = voc.guess(enteredWord);</span>
+<span class="nc bnc" id="L101" title="All 2 branches missed.">				if(guessedRight){ //Zeige Nächste Vokabel falls die Eingabe richtig war</span>
+<span class="nc" id="L102">					System.out.println(&quot;richtig&quot;);</span>
+<span class="nc" id="L103">					VokabelWort newVoc = voc.getNextVoc();</span>
+<span class="nc" id="L104">					String newVocWord = newVoc.word;</span>
+<span class="nc" id="L105">					System.out.println(newVocWord);</span>
+					//richtigHaken.setVisible(true);
+					try {
+<span class="nc" id="L108">						Thread.sleep(500);</span>
+<span class="nc" id="L109">					} catch (Exception ex) {</span>
+<span class="nc" id="L110">					}</span>
+					//richtigHaken.setVisible(false);
+<span class="nc" id="L112">					pruefungView.vokabelText.setText(newVocWord);</span>
+<span class="nc" id="L113">				}</span>
+				else{
+<span class="nc" id="L115">					System.out.println(&quot;falsch&quot;);</span>
+				}
+<span class="nc" id="L117">			}</span>
+		});
+
+<span class="nc" id="L120">		pruefungView.switchPanelButton.addActionListener(new ActionListener(){  </span>
+			public void actionPerformed(ActionEvent e){
+<span class="nc" id="L122">				layout.show(deck, &quot;main&quot;); //Prüfung wird beendet</span>
+<span class="nc" id="L123">				}  </span>
+				}
+			);
+
+<span class="nc" id="L127">	}</span>
+
+
+	private void initializeLernFrame(){
+<span class="nc" id="L131">		lernPanel = new JPanel();</span>
+		JButton zurueckButton;
+<span class="nc" id="L133">		zurueckButton = new JButton(&quot;Zurück&quot;);</span>
+<span class="nc" id="L134">		zurueckButton.setBounds(250, 100, 120, 30);</span>
+<span class="nc" id="L135">		zurueckButton.addActionListener(new ActionListener(){  </span>
+			public void actionPerformed(ActionEvent e){
+<span class="nc" id="L137">				layout.show(deck, &quot;main&quot;);</span>
+<span class="nc" id="L138">			}});</span>
+
+<span class="nc" id="L140">		lernPanel.add(zurueckButton);</span>
+<span class="nc" id="L141">		int anzahlVokabeln = voc.Vokabelliste.getLength();</span>
+<span class="nc" id="L142">		String vokabeln[][] = new String[anzahlVokabeln][3];</span>
+
+
+<span class="nc bnc" id="L145" title="All 2 branches missed.">		for (int i = 0; i &lt; anzahlVokabeln; i++){</span>
+<span class="nc" id="L146">			VokabelWort vok = (VokabelWort) voc.Vokabelliste.getItem(i);</span>
+<span class="nc" id="L147">			vokabeln[i][0] = vok.word;</span>
+<span class="nc" id="L148">			vokabeln[i][1] = vok.translation;</span>
+<span class="nc" id="L149">			vokabeln[i][2] = Float.toString(vok.calcPercentageRight());</span>
+		}
+<span class="nc" id="L151">		String[] heading = {&quot;Deutsch&quot;, &quot;Englisch&quot;, &quot;% Richtig&quot;};</span>
+<span class="nc" id="L152">		JTable tabelle = new JTable(vokabeln, heading);</span>
+<span class="nc" id="L153">		tabelle.setBounds(30, 40, 200, 300);</span>
+<span class="nc" id="L154">		JScrollPane sp = new JScrollPane(tabelle);</span>
+<span class="nc" id="L155">		lernPanel.add(sp); // Vokabeln mit Richtigskeit-Prozentsatz</span>
+<span class="nc" id="L156">	}</span>
+	
+
+	private void initializeHomescreenFrame(){
+		JButton startePruefungButton;
+		JButton vokHinzufuegenButton;
+		JButton listeVokButton;
+		JButton darkmodeButton;
+
+<span class="nc" id="L165">		darkmodeButton = new JButton();</span>
+<span class="nc" id="L166">		darkmodeButton.setBounds(50, 350, 120, 25);</span>
+<span class="nc" id="L167">		darkmodeButton.setText(&quot;Jan button&quot;);</span>
+<span class="nc" id="L168">		darkmodeButton.addActionListener(new ActionListener(){  </span>
+			public void actionPerformed(ActionEvent e){
+<span class="nc bnc" id="L170" title="All 2 branches missed.">				if(darkMode){</span>
+					try {
+<span class="nc" id="L172">					UIManager.setLookAndFeel(new FlatLightLaf());</span>
+<span class="nc" id="L173">					System.out.println(&quot;change to light&quot;);</span>
+<span class="nc" id="L174">					darkMode = false;</span>
+<span class="nc" id="L175">					SwingUtilities.updateComponentTreeUI(mainFrame);</span>
+<span class="nc" id="L176">					hauptMenuPanel.setBackground(Color.WHITE);//Farbänderung zwischen light und dark mode</span>
+
+<span class="nc" id="L178">					} catch (Exception ex) {</span>
+<span class="nc" id="L179">						ex.printStackTrace();</span>
+<span class="nc" id="L180">					}</span>
+				}
+				else{
+					try {
+<span class="nc" id="L184">						UIManager.setLookAndFeel(new FlatDarkLaf());</span>
+<span class="nc" id="L185">						System.out.println(&quot;change to dark&quot;);</span>
+<span class="nc" id="L186">						darkMode = true;</span>
+<span class="nc" id="L187">						SwingUtilities.updateComponentTreeUI(mainFrame);</span>
+<span class="nc" id="L188">						hauptMenuPanel.setBackground(Color.DARK_GRAY);</span>
+<span class="nc" id="L189">					} catch (Exception ex) {</span>
+<span class="nc" id="L190">						ex.printStackTrace();</span>
+<span class="nc" id="L191">					}</span>
+				}
+<span class="nc" id="L193">				}  </span>
+				}
+			);
+		
+
+<span class="nc" id="L198">		startePruefungButton = new JButton(&quot;Starte Prüfung&quot;);</span>
+<span class="nc" id="L199">		startePruefungButton.setBounds(10, 85, 120, 25);</span>
+<span class="nc" id="L200">		startePruefungButton.addActionListener(new ActionListener(){  </span>
+			public void actionPerformed(ActionEvent e){
+<span class="nc bnc" id="L202" title="All 2 branches missed.">				if (voc.Vokabelliste.isEmpty()){</span>
+<span class="nc" id="L203">					pruefungView.noVocab(true, null);</span>
+<span class="nc" id="L204">					layout.show(deck, &quot;pruefung&quot;);</span>
+				}
+				else{
+<span class="nc" id="L207">					voc.getNextVoc();</span>
+<span class="nc" id="L208">					pruefungView.noVocab(false, voc.voc.word);</span>
+<span class="nc" id="L209">					layout.show(deck, &quot;pruefung&quot;);</span>
+				}	
+<span class="nc" id="L211">				}  </span>
+				}
+			);
+<span class="nc" id="L214">		hauptMenuPanel.add(startePruefungButton);</span>
+
+<span class="nc" id="L216">		vokHinzufuegenButton = new JButton(&quot;Füge Vokabeln hinzu&quot;);</span>
+<span class="nc" id="L217">		vokHinzufuegenButton.setBounds(10, 120, 120, 25);</span>
+<span class="nc" id="L218">		vokHinzufuegenButton.addActionListener(new ActionListener(){  </span>
+			public void actionPerformed(ActionEvent e){
+<span class="nc" id="L220">				layout.show(deck, &quot;hinzufuegen&quot;);</span>
+<span class="nc" id="L221">				}  </span>
+				}
+			);
+<span class="nc" id="L224">		hauptMenuPanel.add(vokHinzufuegenButton);</span>
+		
+<span class="nc" id="L226">		listeVokButton = new JButton(&quot;Liste der Vokabeln&quot;);</span>
+<span class="nc" id="L227">		listeVokButton.setBounds(10, 150, 120, 25);</span>
+<span class="nc" id="L228">		listeVokButton.addActionListener(new ActionListener(){  </span>
+			public void actionPerformed(ActionEvent e){
+<span class="nc" id="L230">				initializeLernFrame();</span>
+<span class="nc" id="L231">				deck.add(lernPanel, &quot;lernen&quot;);</span>
+<span class="nc" id="L232">				layout.show(deck, &quot;lernen&quot;);</span>
+<span class="nc" id="L233">			}  </span>
+		}
+		);
+<span class="nc" id="L236">		hauptMenuPanel.setBackground(Color.DARK_GRAY);</span>
+<span class="nc" id="L237">		hauptMenuPanel.add(listeVokButton);</span>
+
+<span class="nc" id="L239">		hauptMenuPanel.add(darkmodeButton);</span>
+<span class="nc" id="L240">	}</span>
+	
+	
+<span class="nc" id="L243">	public GUI(){</span>
+		//UIManager.getSystemLookAndFeelClassName()
+		try{
+<span class="nc" id="L246">			UIManager.setLookAndFeel( new FlatDarculaLaf());</span>
+<span class="nc" id="L247">			darkMode = true;</span>
+		}
+<span class="nc" id="L249">		catch (Exception e){</span>
+<span class="nc" id="L250">			e.printStackTrace();</span>
+<span class="nc" id="L251">		}</span>
+<span class="nc" id="L252">		voc = new Vokabeltest();</span>
+<span class="nc" id="L253">		initializeAddFrame();</span>
+<span class="nc" id="L254">		initializePruefungFrame();</span>
+<span class="nc" id="L255">		initializeHomescreenFrame();</span>
+			
+<span class="nc" id="L257">		deck.setLayout(layout); //Deck für die verschiedenen Ansichten</span>
+<span class="nc" id="L258">		deck.setBounds(0, 0, 1000, 1000);</span>
+<span class="nc" id="L259">		deck.add(hauptMenuPanel, &quot;main&quot;);</span>
+<span class="nc" id="L260">		deck.add(pruefungView, &quot;pruefung&quot;);</span>
+<span class="nc" id="L261">		deck.add(addVocView, &quot;hinzufuegen&quot;); //Auswahlmöglichkeiten für den Costumer</span>
+		
+<span class="nc" id="L263">		mainFrame = new JFrame(); //Fenster der App</span>
+<span class="nc" id="L264">		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);</span>
+<span class="nc" id="L265">		mainFrame.add(deck);</span>
+<span class="nc" id="L266">		mainFrame.setPreferredSize(new Dimension(1000, 1000));</span>
+<span class="nc" id="L267">		mainFrame.pack();</span>
+<span class="nc" id="L268">		mainFrame.setLocationRelativeTo(null);</span>
+<span class="nc" id="L269">		mainFrame.setVisible(true);</span>
+<span class="nc" id="L270">	}</span>
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>

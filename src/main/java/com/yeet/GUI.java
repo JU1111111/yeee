@@ -1,12 +1,11 @@
 package com.yeet;
 import javax.swing.plaf.ColorUIResource;
-
 import com.formdev.flatlaf.FlatDarculaLaf;
+import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.FlatDarkLaf;
-import com.formdev.flatlaf.themes.FlatMacDarkLaf;
-import com.yeet.views.*;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
+import com.yeet.views.*;
 import java.awt.event.*;  
 import javax.swing.*;
 import java.awt.*;    
@@ -15,13 +14,13 @@ import java.awt.*;
 public class GUI{
 	private static Vokabeltest voc;
 	private static JFrame mainFrame;
-	JPanel hinzufuegenPanel = new JPanel();
 	JPanel lernPanel = new JPanel();;
 	JPanel hauptMenuPanel = new JPanel();
 	JPanel deck = new JPanel();
 	PruefungView pruefungView;
 	AddVocView addVocView;
 	private CardLayout layout = new CardLayout();
+	Boolean darkMode;
 
 	
 	private void initializeAddFrame(){
@@ -103,7 +102,7 @@ public class GUI{
 					System.out.println(newVocWord);
 					//richtigHaken.setVisible(true);
 					try {
-						Thread.sleep(1000);
+						Thread.sleep(500);
 					} catch (Exception ex) {
 					}
 					//richtigHaken.setVisible(false);
@@ -158,6 +157,40 @@ public class GUI{
 		JButton startePruefungButton;
 		JButton vokHinzufuegenButton;
 		JButton listeVokButton;
+		JButton darkmodeButton;
+
+		darkmodeButton = new JButton();
+		darkmodeButton.setBounds(50, 350, 120, 25);
+		darkmodeButton.setText("Jan button");
+		darkmodeButton.addActionListener(new ActionListener(){  
+			public void actionPerformed(ActionEvent e){
+				if(darkMode){
+					try {
+					UIManager.setLookAndFeel(new FlatLightLaf());
+					System.out.println("change to light");
+					darkMode = false;
+					SwingUtilities.updateComponentTreeUI(mainFrame);
+					hauptMenuPanel.setBackground(Color.WHITE);//Farbänderung zwischen light und dark mode
+
+					} catch (Exception ex) {
+						ex.printStackTrace();
+					}
+				}
+				else{
+					try {
+						UIManager.setLookAndFeel(new FlatDarkLaf());
+						System.out.println("change to dark");
+						darkMode = true;
+						SwingUtilities.updateComponentTreeUI(mainFrame);
+						hauptMenuPanel.setBackground(Color.DARK_GRAY);
+					} catch (Exception ex) {
+						ex.printStackTrace();
+					}
+				}
+				}  
+				}
+			);
+		
 
 		startePruefungButton = new JButton("Starte Prüfung");
 		startePruefungButton.setBounds(10, 85, 120, 25);
@@ -199,13 +232,16 @@ public class GUI{
 		);
 		hauptMenuPanel.setBackground(Color.DARK_GRAY);
 		hauptMenuPanel.add(listeVokButton);
+
+		hauptMenuPanel.add(darkmodeButton);
 	}
 	
 	
 	public GUI(){
 		//UIManager.getSystemLookAndFeelClassName()
 		try{
-			UIManager.setLookAndFeel( new FlatDarkLaf());
+			UIManager.setLookAndFeel( new FlatDarculaLaf());
+			darkMode = true;
 		}
 		catch (Exception e){
 			e.printStackTrace();

@@ -113,11 +113,11 @@ public class Vokabeltest{
 
 	public boolean guess(String guess){
 		if (this.voc.translation.equals(guess)){
-			this.voc.guessedRight += 1;
+			this.voc.guessedRight ++;
 			return true;
 		}
 		else{
-			this.voc.guessedWrong += 1;
+			this.voc.guessedWrong ++;
 			return false;
 		}
 	}

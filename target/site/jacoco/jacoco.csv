@@ -1,0 +1,23 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+yeee,com.yeet.views,AddVocView,178,0,0,0,32,0,1,0,1,0
+yeee,com.yeet.views,PruefungView,236,0,4,0,45,0,4,0,2,0
+yeee,com.yeet,Jsonloader,23,20,0,0,4,5,3,4,3,4
+yeee,com.yeet,GUI.new ActionListener() {...},47,0,2,0,8,0,3,0,2,0
+yeee,com.yeet,DynArray,190,43,26,2,47,14,19,3,6,2
+yeee,com.yeet,GUI.new ActionListener() {...},15,0,0,0,3,0,2,0,2,0
+yeee,com.yeet,GUI.new ActionListener() {...},15,0,0,0,3,0,2,0,2,0
+yeee,com.yeet,GUI.new ActionListener() {...},15,0,0,0,3,0,2,0,2,0
+yeee,com.yeet,GUI.new ActionListener() {...},26,0,0,0,5,0,2,0,2,0
+yeee,com.yeet,GUI.new ActionListener() {...},59,0,2,0,19,0,3,0,2,0
+yeee,com.yeet,App,70,0,4,0,15,0,5,0,3,0
+yeee,com.yeet,Jsonloader.new TypeReference() {...},3,0,0,0,1,0,1,0,1,0
+yeee,com.yeet,Vokabeltest,242,0,22,0,66,0,22,0,11,0
+yeee,com.yeet,GUI.new ActionListener() {...},102,0,4,0,15,0,4,0,2,0
+yeee,com.yeet,GUI.new ActionListener() {...},9,0,0,0,3,0,2,0,2,0
+yeee,com.yeet,GUI.new ActionListener() {...},13,0,0,0,6,0,2,0,2,0
+yeee,com.yeet,VokabelWort,27,15,4,0,8,6,4,1,2,1
+yeee,com.yeet,GUI.new ActionListener() {...},15,0,0,0,3,0,2,0,2,0
+yeee,com.yeet,GUI,379,0,2,0,76,0,6,0,5,0
+yeee,com.yeet,GUI.new ActionListener() {...},18,0,0,0,5,0,2,0,2,0
+yeee,com.yeet,Element,0,3,0,0,0,1,0,1,0,1
+yeee,com.yeet,GUI.new ActionListener() {...},59,0,2,0,17,0,3,0,2,0

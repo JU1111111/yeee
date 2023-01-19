@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PruefungView.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">yeee</a> &gt; <a href="index.source.html" class="el_package">com.yeet.views</a> &gt; <span class="el_source">PruefungView.java</span></div><h1>PruefungView.java</h1><pre class="source lang-java linenums">package com.yeet.views;
+
+import javax.swing.JPanel;
+import javax.swing.plaf.ColorUIResource; 
+import javax.swing.*;
+import java.awt.*;   
+
+public class PruefungView extends JPanel{
+	public JLabel englischLabel; // Übersetzung Eingeben Text
+	public JTextField englischWortInput; //EingabeFeld Übersetzung
+	public JButton enterButton; 
+	public JLabel vokabelText;// Vokabel zum abfragen
+	public JButton switchPanelButton; // Button zurück zum Hauptmenu
+	public JComboBox&lt;String&gt; sortComboBox;
+	public JLabel sortierungText;
+	public JLabel noVocText;
+	
+
+
+<span class="nc" id="L20">	public PruefungView(){</span>
+
+<span class="nc" id="L22">		this.setLayout(null);</span>
+
+<span class="nc" id="L24">		vokabelText = new JLabel();</span>
+<span class="nc" id="L25">		vokabelText.setFont(new Font(&quot;Serif&quot;, Font.PLAIN, 30));</span>
+<span class="nc" id="L26">		vokabelText.setBounds(250, 10, 250, 50);</span>
+<span class="nc" id="L27">		vokabelText.setVisible(false);</span>
+<span class="nc" id="L28">		this.add(vokabelText);</span>
+
+<span class="nc" id="L30">		noVocText = new JLabel();</span>
+<span class="nc" id="L31">		noVocText.setBounds(250, 10, 250, 50);</span>
+<span class="nc" id="L32">		noVocText.setText(&quot;Keine Vokabeln&quot;);</span>
+<span class="nc" id="L33">		noVocText.setForeground(new ColorUIResource(255, 0, 0));</span>
+<span class="nc" id="L34">		noVocText.setFont(new Font(&quot;Serif&quot;, Font.PLAIN, 30));</span>
+<span class="nc" id="L35">		noVocText.setVisible(false);</span>
+<span class="nc" id="L36">		this.add(noVocText);</span>
+
+	
+<span class="nc" id="L39">		vokabelText.setVisible(true);</span>
+
+<span class="nc" id="L41">		englischLabel = new JLabel(&quot;Übersetzung&quot;);</span>
+<span class="nc" id="L42">		englischLabel.setBounds(30, 60, 250, 25);</span>
+<span class="nc" id="L43">		this.add(englischLabel);</span>
+		
+<span class="nc" id="L45">		englischWortInput = new JTextField(30);</span>
+<span class="nc" id="L46">		englischWortInput.setBounds(175, 60, 250, 25);</span>
+<span class="nc" id="L47">		this.add(englischWortInput);</span>
+
+<span class="nc" id="L49">		String[] sorts = {&quot;random&quot;, &quot;percentage&quot;};</span>
+<span class="nc" id="L50">		sortComboBox = new JComboBox&lt;String&gt;(sorts);</span>
+<span class="nc" id="L51">		sortComboBox.setBounds(700, 10, 100, 20);</span>
+<span class="nc" id="L52">		sortComboBox.setSelectedIndex(0);</span>
+<span class="nc" id="L53">		this.add(sortComboBox);</span>
+
+<span class="nc" id="L55">		sortierungText = new JLabel();</span>
+<span class="nc" id="L56">		sortierungText.setText(&quot;Sortierung&quot;);</span>
+<span class="nc" id="L57">		sortierungText.setBounds(600, 10, 150, 20);</span>
+<span class="nc" id="L58">		this.add(sortierungText);</span>
+
+<span class="nc" id="L60">		enterButton = new JButton(&quot;Enter Word&quot;);</span>
+<span class="nc" id="L61">		enterButton.setBounds(250, 100, 120, 30);</span>
+<span class="nc" id="L62">		this.add(enterButton);</span>
+
+<span class="nc" id="L64">		switchPanelButton = new JButton(&quot;Beende Prüfung&quot;);</span>
+<span class="nc" id="L65">		switchPanelButton.setBounds(250, 140, 120, 25);</span>
+<span class="nc" id="L66">		this.add(switchPanelButton);</span>
+		
+<span class="nc" id="L68">	}</span>
+
+	public void noVocab(Boolean noVoc, String neueVok){
+<span class="nc bnc" id="L71" title="All 2 branches missed.">		if (noVoc){</span>
+<span class="nc" id="L72">			vokabelText.setVisible(false);</span>
+<span class="nc" id="L73">			noVocText.setVisible(true);</span>
+		}
+<span class="nc bnc" id="L75" title="All 2 branches missed.">		else if(neueVok != null){</span>
+<span class="nc" id="L76">			vokabelText.setVisible(true);</span>
+<span class="nc" id="L77">			vokabelText.setText(neueVok);</span>
+<span class="nc" id="L78">			noVocText.setVisible(false);</span>
+		}
+<span class="nc" id="L80">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>
